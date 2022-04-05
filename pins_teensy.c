@@ -335,109 +335,7 @@ static void portcd_interrupt(void)
 #endif
 
 
-#if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MK64FX512__) || defined(__MK66FX1M0__)
 
-unsigned long rtc_get(void)
-{
-	return RTC_TSR;
-}
-
-void rtc_set(unsigned long t)
-{
-	RTC_SR = 0;
-	RTC_TPR = 0;
-	RTC_TSR = t;
-	RTC_SR = RTC_SR_TCE;
-}
-
-// adjust is the amount of crystal error to compensate, 1 = 0.1192 ppm
-// For example, adjust = -100 is slows the clock by 11.92 ppm
-//
-void rtc_compensate(int adjust)
-{
-	uint32_t comp, interval, tcr;
-
-	// This simple approach tries to maximize the interval.
-	// Perhaps minimizing TCR would be better, so the
-	// compensation is distributed more evenly across
-	// many seconds, rather than saving it all up and then
-	// altering one second up to +/- 0.38%
-	if (adjust >= 0) {
-		comp = adjust;
-		interval = 256;
-		while (1) {
-			tcr = comp * interval;
-			if (tcr < 128*256) break;
-			if (--interval == 1) break;
-		}
-		tcr = tcr >> 8;
-	} else {
-		comp = -adjust;
-		interval = 256;
-		while (1) {
-			tcr = comp * interval;
-			if (tcr < 129*256) break;
-			if (--interval == 1) break;
-		}
-		tcr = tcr >> 8;
-		tcr = 256 - tcr;
-	}
-	RTC_TCR = ((interval - 1) << 8) | tcr;
-}
-
-#else
-
-unsigned long rtc_get(void) { return 0; }
-void rtc_set(unsigned long t) { }
-void rtc_compensate(int adjust) { }
-
-#endif
-
-
-
-#if 0
-// TODO: build system should define this
-// so RTC is automatically initialized to approx correct time
-// at least when the program begins running right after upload
-#ifndef TIME_T
-#define TIME_T 1350160272
-#endif
-
-void init_rtc(void)
-{
-	serial_print("init_rtc\n");
-	//SIM_SCGC6 |= SIM_SCGC6_RTC;
-
-	// enable the RTC crystal oscillator, for approx 12pf crystal
-	if (!(RTC_CR & RTC_CR_OSCE)) {
-		serial_print("start RTC oscillator\n");
-		RTC_SR = 0;
-		RTC_CR = RTC_CR_SC16P | RTC_CR_SC4P | RTC_CR_OSCE;
-	}
-	// should wait for crystal to stabilize.....
-
-	serial_print("SR=");
-	serial_phex32(RTC_SR);
-	serial_print("\n");
-	serial_print("CR=");
-	serial_phex32(RTC_CR);
-	serial_print("\n");
-	serial_print("TSR=");
-	serial_phex32(RTC_TSR);
-	serial_print("\n");
-	serial_print("TCR=");
-	serial_phex32(RTC_TCR);
-	serial_print("\n");
-
-	if (RTC_SR & RTC_SR_TIF) {
-		// enable the RTC
-		RTC_SR = 0;
-		RTC_TPR = 0;
-		RTC_TSR = TIME_T;
-		RTC_SR = RTC_SR_TCE;
-	}
-}
-#endif
 
 extern void usb_init(void);
 
@@ -452,7 +350,7 @@ void startup_middle_hook(void)	__attribute__ ((weak, alias("startup_default_midd
 
 #if F_CPU > 16000000
 #define F_TIMER (F_PLL/2)
-#else 
+#else
 #define F_TIMER (F_PLL)
 #endif//Low Power
 
@@ -961,7 +859,7 @@ void analogWriteFrequency(uint8_t pin, float frequency)
 	}
 #endif
 
-	
+
 	for (prescale = 0; prescale < 7; prescale++) {
 		minfreq = (float)(ftmClock >> prescale) / 65536.0f;	//Use ftmClock instead of F_TIMER
 		if (frequency >= minfreq) break;
@@ -1287,7 +1185,7 @@ uint32_t pulseIn_low(volatile uint8_t *reg, uint32_t timeout)
 {
 	uint32_t timeout_count = timeout * PULSEIN_LOOPS_PER_USEC;
 	uint32_t usec_start, usec_stop;
-	
+
 	// wait for any previous pulse to end
 	while (!*reg) {
 		if (--timeout_count == 0) return 0;
@@ -1340,7 +1238,7 @@ uint32_t pulseIn_low(volatile uint8_t *reg, uint8_t mask, uint32_t timeout)
 {
 	uint32_t timeout_count = timeout * PULSEIN_LOOPS_PER_USEC;
 	uint32_t usec_start, usec_stop;
-	
+
 	// wait for any previous pulse to end
 	while (!(*reg & mask)) {
 		if (--timeout_count == 0) return 0;

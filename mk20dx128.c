@@ -765,7 +765,7 @@ void ResetHandler(void)
 #else
 	SMC_PMPROT = SMC_PMPROT_AVLP | SMC_PMPROT_ALLS | SMC_PMPROT_AVLLS;
 #endif
-    
+
 	// TODO: do this while the PLL is waiting to lock....
 	while (dest < &_edata) *dest++ = *src++;
 	dest = &_sbss;
@@ -791,7 +791,7 @@ void ResetHandler(void)
     #endif
 	// wait for MCGOUT to use oscillator
 	while ((MCG_S & MCG_S_CLKST_MASK) != MCG_S_CLKST(1)) ;
-	for (n=0; n<10; n++) ; // TODO: why do we get 2 mA extra without this delay?
+	//for (n=0; n<10; n++) ; // TODO: why do we get 2 mA extra without this delay?
 	MCG_C2 = MCG_C2_IRCS;
 	while (!(MCG_S & MCG_S_IRCST)) ;
 	// now in FBI mode:
@@ -940,8 +940,8 @@ void ResetHandler(void)
 	#elif F_BUS == 72000000
 	SIM_CLKDIV1 = SIM_CLKDIV1_OUTDIV1(0) | SIM_CLKDIV1_OUTDIV2(2) | SIM_CLKDIV1_OUTDIV4(7);
 	#elif F_BUS == 108000000
-	SIM_CLKDIV1 = SIM_CLKDIV1_OUTDIV1(0) | SIM_CLKDIV1_OUTDIV2(1) | SIM_CLKDIV1_OUTDIV4(7);	
-	
+	SIM_CLKDIV1 = SIM_CLKDIV1_OUTDIV1(0) | SIM_CLKDIV1_OUTDIV2(1) | SIM_CLKDIV1_OUTDIV4(7);
+
 	#else
 	#error "This F_CPU & F_BUS combination is not supported"
 	#endif
@@ -1089,13 +1089,13 @@ void ResetHandler(void)
 		| SIM_SOPT2_UART0SRC(1) | SIM_SOPT2_TPMSRC(1);
 	#endif
 #else
-    
+
 #if F_CPU == 2000000
 	SIM_SOPT2 = SIM_SOPT2_TRACECLKSEL | SIM_SOPT2_CLKOUTSEL(4) | SIM_SOPT2_UART0SRC(3);
 #else
     SIM_SOPT2 = SIM_SOPT2_TRACECLKSEL | SIM_SOPT2_CLKOUTSEL(6) | SIM_SOPT2_UART0SRC(2);
 #endif
-    
+
 #endif
 
 #if F_CPU <= 2000000
@@ -1123,43 +1123,13 @@ void ResetHandler(void)
 
 	_init_Teensyduino_internal_();
 
-#if defined(KINETISK)
-	// RTC initialization
-	if (RTC_SR & RTC_SR_TIF) {
-		// this code will normally run on a power-up reset
-		// when VBAT has detected a power-up.  Normally our
-		// compiled-in time will be stale.  Write a special
-		// flag into the VBAT register file indicating the
-		// RTC is set with known-stale time and should be
-		// updated when fresh time is known.
-		#if ARDUINO >= 10600
-		rtc_set((uint32_t)&__rtc_localtime);
-		#else
-		rtc_set(TIME_T);
-		#endif
-		*(uint32_t *)0x4003E01C = 0x5A94C3A5;
-	}
-	if ((RCM_SRS0 & RCM_SRS0_PIN) && (*(uint32_t *)0x4003E01C == 0x5A94C3A5)) {
-		// this code should run immediately after an upload
-		// where the Teensy Loader causes the Mini54 to reset.
-		// Our compiled-in time will be very fresh, so set
-		// the RTC with this, and clear the VBAT resister file
-		// data so we don't mess with the time after it's been
-		// set well.
-		#if ARDUINO >= 10600
-		rtc_set((uint32_t)&__rtc_localtime);
-		#else
-		rtc_set(TIME_T);
-		#endif
-		*(uint32_t *)0x4003E01C = 0;
-	}
-#endif
+
 
 	startup_late_hook();
 	__libc_init_array();
 
 	main();
-	
+
 	while (1) ;
 }
 
@@ -1196,13 +1166,13 @@ void * _sbrk(int incr)
 	return prev;
 }
 
-__attribute__((weak)) 
+__attribute__((weak))
 int _read(int file, char *ptr, int len)
 {
 	return 0;
 }
 
-__attribute__((weak)) 
+__attribute__((weak))
 int _close(int fd)
 {
 	return -1;
@@ -1210,44 +1180,44 @@ int _close(int fd)
 
 #include <sys/stat.h>
 
-__attribute__((weak)) 
+__attribute__((weak))
 int _fstat(int fd, struct stat *st)
 {
 	st->st_mode = S_IFCHR;
 	return 0;
 }
 
-__attribute__((weak)) 
+__attribute__((weak))
 int _isatty(int fd)
 {
 	return 1;
 }
 
-__attribute__((weak)) 
+__attribute__((weak))
 int _lseek(int fd, long long offset, int whence)
 {
 	return -1;
 }
 
-__attribute__((weak)) 
+__attribute__((weak))
 void _exit(int status)
 {
 	while (1);
 }
 
-__attribute__((weak)) 
+__attribute__((weak))
 void __cxa_pure_virtual()
 {
 	while (1);
 }
 
-__attribute__((weak)) 
-int __cxa_guard_acquire (char *g) 
+__attribute__((weak))
+int __cxa_guard_acquire (char *g)
 {
 	return !(*g);
 }
 
-__attribute__((weak)) 
+__attribute__((weak))
 void __cxa_guard_release(char *g)
 {
 	*g = 1;

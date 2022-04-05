@@ -2332,7 +2332,7 @@ void _reboot_Teensyduino_(void) __attribute__((noreturn));
 void _restart_Teensyduino_(void) __attribute__((noreturn));
 
 // Define a set of flags to know which things yield should check when called.
-// Probably should be in a better spot.  
+// Probably should be in a better spot.
 extern uint8_t yield_active_check_flags;
 
 #define YIELD_CHECK_USB_SERIAL 		0x1   	// check the USB for Serial.available()
@@ -2528,33 +2528,12 @@ static inline void delayNanoseconds(uint32_t nsec)
 #ifdef __cplusplus
 extern "C" {
 #endif
-unsigned long rtc_get(void);
-void rtc_set(unsigned long t);
-void rtc_compensate(int adjust);
+
 #ifdef __cplusplus
 }
 
 // DateTimeFields follows C library "struct tm" convention, but uses much less memory
-typedef struct  {
-	uint8_t sec;   // 0-59
-	uint8_t min;   // 0-59
-	uint8_t hour;  // 0-23
-	uint8_t wday;  // 0-6, 0=sunday
-	uint8_t mday;  // 1-31
-	uint8_t mon;   // 0-11
-	uint8_t year;  // 70-206, 70=1970, 206=2106
-} DateTimeFields;
-void breakTime(uint32_t time, DateTimeFields &tm);  // break 32 bit time into DateTimeFields
-uint32_t makeTime(const DateTimeFields &tm); // convert DateTimeFields to 32 bit time
 
-class teensy3_clock_class
-{
-public:
-	static unsigned long get(void) __attribute__((always_inline)) { return rtc_get(); }
-	static void set(unsigned long t) __attribute__((always_inline)) { rtc_set(t); }
-	static void compensate(int adj) __attribute__((always_inline)) { rtc_compensate(adj); }
-};
-extern teensy3_clock_class Teensy3Clock;
 #endif
 
 
