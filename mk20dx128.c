@@ -1,32 +1,4 @@
-/* Teensyduino Core Library
- * http://www.pjrc.com/teensy/
- * Copyright (c) 2017 PJRC.COM, LLC.
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * 1. The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * 2. If the Software is incorporated into a build system that allows
- * selection among a list of target devices, then similar target
- * devices manufactured by PJRC.COM must be included in the list of
- * target devices and selectable in the same manner.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+
 
 #include "kinetis.h"
 #include "core_pins.h" // testing only
@@ -284,270 +256,7 @@ void (* const _VectorsFlash[NVIC_NUM_INTERRUPTS+16])(void) =
 	fault_isr,					// 13 --
 	pendablesrvreq_isr,				// 14 ARM: Pendable req serv(PendableSrvReq)
 	systick_isr,					// 15 ARM: System tick timer (SysTick)
-#if defined(__MK20DX128__)
-	dma_ch0_isr,					// 16 DMA channel 0 transfer complete
-	dma_ch1_isr,					// 17 DMA channel 1 transfer complete
-	dma_ch2_isr,					// 18 DMA channel 2 transfer complete
-	dma_ch3_isr,					// 19 DMA channel 3 transfer complete
-	dma_error_isr,					// 20 DMA error interrupt channel
-	unused_isr,					// 21 DMA --
-	flash_cmd_isr,					// 22 Flash Memory Command complete
-	flash_error_isr,				// 23 Flash Read collision
-	low_voltage_isr,				// 24 Low-voltage detect/warning
-	wakeup_isr,					// 25 Low Leakage Wakeup
-	watchdog_isr,					// 26 Both EWM and WDOG interrupt
-	i2c0_isr,					// 27 I2C0
-	spi0_isr,					// 28 SPI0
-	i2s0_tx_isr,					// 29 I2S0 Transmit
-	i2s0_rx_isr,					// 30 I2S0 Receive
-	uart0_lon_isr,					// 31 UART0 CEA709.1-B (LON) status
-	uart0_status_isr,				// 32 UART0 status
-	uart0_error_isr,				// 33 UART0 error
-	uart1_status_isr,				// 34 UART1 status
-	uart1_error_isr,				// 35 UART1 error
-	uart2_status_isr,				// 36 UART2 status
-	uart2_error_isr,				// 37 UART2 error
-	adc0_isr,					// 38 ADC0
-	cmp0_isr,					// 39 CMP0
-	cmp1_isr,					// 40 CMP1
-	ftm0_isr,					// 41 FTM0
-	ftm1_isr,					// 42 FTM1
-	cmt_isr,					// 43 CMT
-	rtc_alarm_isr,					// 44 RTC Alarm interrupt
-	rtc_seconds_isr,				// 45 RTC Seconds interrupt
-	pit0_isr,					// 46 PIT Channel 0
-	pit1_isr,					// 47 PIT Channel 1
-	pit2_isr,					// 48 PIT Channel 2
-	pit3_isr,					// 49 PIT Channel 3
-	pdb_isr,					// 50 PDB Programmable Delay Block
-	usb_isr,					// 51 USB OTG
-	usb_charge_isr,					// 52 USB Charger Detect
-	tsi0_isr,					// 53 TSI0
-	mcg_isr,					// 54 MCG
-	lptmr_isr,					// 55 Low Power Timer
-	porta_isr,					// 56 Pin detect (Port A)
-	portb_isr,					// 57 Pin detect (Port B)
-	portc_isr,					// 58 Pin detect (Port C)
-	portd_isr,					// 59 Pin detect (Port D)
-	porte_isr,					// 60 Pin detect (Port E)
-	software_isr,					// 61 Software interrupt
-#elif defined(__MK20DX256__)
-	dma_ch0_isr,					// 16 DMA channel 0 transfer complete
-	dma_ch1_isr,					// 17 DMA channel 1 transfer complete
-	dma_ch2_isr,					// 18 DMA channel 2 transfer complete
-	dma_ch3_isr,					// 19 DMA channel 3 transfer complete
-	dma_ch4_isr,					// 20 DMA channel 4 transfer complete
-	dma_ch5_isr,					// 21 DMA channel 5 transfer complete
-	dma_ch6_isr,					// 22 DMA channel 6 transfer complete
-	dma_ch7_isr,					// 23 DMA channel 7 transfer complete
-	dma_ch8_isr,					// 24 DMA channel 8 transfer complete
-	dma_ch9_isr,					// 25 DMA channel 9 transfer complete
-	dma_ch10_isr,					// 26 DMA channel 10 transfer complete
-	dma_ch11_isr,					// 27 DMA channel 11 transfer complete
-	dma_ch12_isr,					// 28 DMA channel 12 transfer complete
-	dma_ch13_isr,					// 29 DMA channel 13 transfer complete
-	dma_ch14_isr,					// 30 DMA channel 14 transfer complete
-	dma_ch15_isr,					// 31 DMA channel 15 transfer complete
-	dma_error_isr,					// 32 DMA error interrupt channel
-	unused_isr,					// 33 --
-	flash_cmd_isr,					// 34 Flash Memory Command complete
-	flash_error_isr,				// 35 Flash Read collision
-	low_voltage_isr,				// 36 Low-voltage detect/warning
-	wakeup_isr,					// 37 Low Leakage Wakeup
-	watchdog_isr,					// 38 Both EWM and WDOG interrupt
-	unused_isr,					// 39 --
-	i2c0_isr,					// 40 I2C0
-	i2c1_isr,					// 41 I2C1
-	spi0_isr,					// 42 SPI0
-	spi1_isr,					// 43 SPI1
-	unused_isr,					// 44 --
-	can0_message_isr,				// 45 CAN OR'ed Message buffer (0-15)
-	can0_bus_off_isr,				// 46 CAN Bus Off
-	can0_error_isr,					// 47 CAN Error
-	can0_tx_warn_isr,				// 48 CAN Transmit Warning
-	can0_rx_warn_isr,				// 49 CAN Receive Warning
-	can0_wakeup_isr,				// 50 CAN Wake Up
-	i2s0_tx_isr,					// 51 I2S0 Transmit
-	i2s0_rx_isr,					// 52 I2S0 Receive
-	unused_isr,					// 53 --
-	unused_isr,					// 54 --
-	unused_isr,					// 55 --
-	unused_isr,					// 56 --
-	unused_isr,					// 57 --
-	unused_isr,					// 58 --
-	unused_isr,					// 59 --
-	uart0_lon_isr,					// 60 UART0 CEA709.1-B (LON) status
-	uart0_status_isr,				// 61 UART0 status
-	uart0_error_isr,				// 62 UART0 error
-	uart1_status_isr,				// 63 UART1 status
-	uart1_error_isr,				// 64 UART1 error
-	uart2_status_isr,				// 65 UART2 status
-	uart2_error_isr,				// 66 UART2 error
-	unused_isr,					// 67 --
-	unused_isr,					// 68 --
-	unused_isr,					// 69 --
-	unused_isr,					// 70 --
-	unused_isr,					// 71 --
-	unused_isr,					// 72 --
-	adc0_isr,					// 73 ADC0
-	adc1_isr,					// 74 ADC1
-	cmp0_isr,					// 75 CMP0
-	cmp1_isr,					// 76 CMP1
-	cmp2_isr,					// 77 CMP2
-	ftm0_isr,					// 78 FTM0
-	ftm1_isr,					// 79 FTM1
-	ftm2_isr,					// 80 FTM2
-	cmt_isr,					// 81 CMT
-	rtc_alarm_isr,					// 82 RTC Alarm interrupt
-	rtc_seconds_isr,				// 83 RTC Seconds interrupt
-	pit0_isr,					// 84 PIT Channel 0
-	pit1_isr,					// 85 PIT Channel 1
-	pit2_isr,					// 86 PIT Channel 2
-	pit3_isr,					// 87 PIT Channel 3
-	pdb_isr,					// 88 PDB Programmable Delay Block
-	usb_isr,					// 89 USB OTG
-	usb_charge_isr,					// 90 USB Charger Detect
-	unused_isr,					// 91 --
-	unused_isr,					// 92 --
-	unused_isr,					// 93 --
-	unused_isr,					// 94 --
-	unused_isr,					// 95 --
-	unused_isr,					// 96 --
-	dac0_isr,					// 97 DAC0
-	unused_isr,					// 98 --
-	tsi0_isr,					// 99 TSI0
-	mcg_isr,					// 100 MCG
-	lptmr_isr,					// 101 Low Power Timer
-	unused_isr,					// 102 --
-	porta_isr,					// 103 Pin detect (Port A)
-	portb_isr,					// 104 Pin detect (Port B)
-	portc_isr,					// 105 Pin detect (Port C)
-	portd_isr,					// 106 Pin detect (Port D)
-	porte_isr,					// 107 Pin detect (Port E)
-	unused_isr,					// 108 --
-	unused_isr,					// 109 --
-	software_isr,					// 110 Software interrupt
-#elif defined(__MKL26Z64__)
-	dma_ch0_isr,					// 16 DMA channel 0 transfer complete
-	dma_ch1_isr,					// 17 DMA channel 1 transfer complete
-	dma_ch2_isr,					// 18 DMA channel 2 transfer complete
-	dma_ch3_isr,					// 19 DMA channel 3 transfer complete
-	unused_isr,					// 20 --
-	flash_cmd_isr,					// 21 Flash Memory Command complete
-	low_voltage_isr,				// 22 Low-voltage detect/warning
-	wakeup_isr,					// 23 Low Leakage Wakeup
-	i2c0_isr,					// 24 I2C0
-	i2c1_isr,					// 25 I2C1
-	spi0_isr,					// 26 SPI0
-	spi1_isr,					// 27 SPI1
-	uart0_status_isr,				// 28 UART0 status & error
-	uart1_status_isr,				// 29 UART1 status & error
-	uart2_status_isr,				// 30 UART2 status & error
-	adc0_isr,					// 31 ADC0
-	cmp0_isr,					// 32 CMP0
-	ftm0_isr,					// 33 FTM0
-	ftm1_isr,					// 34 FTM1
-	ftm2_isr,					// 35 FTM2
-	rtc_alarm_isr,					// 36 RTC Alarm interrupt
-	rtc_seconds_isr,				// 37 RTC Seconds interrupt
-	pit_isr,					// 38 PIT Both Channels
-	i2s0_isr,					// 39 I2S0 Transmit & Receive
-	usb_isr,					// 40 USB OTG
-	dac0_isr,					// 41 DAC0
-	tsi0_isr,					// 42 TSI0
-	mcg_isr,					// 43 MCG
-	lptmr_isr,					// 44 Low Power Timer
-	software_isr,					// 45 Software interrupt
-	porta_isr,					// 46 Pin detect (Port A)
-	portcd_isr,					// 47 Pin detect (Port C and D)
-#elif defined(__MK64FX512__)
-	dma_ch0_isr,					// 16 DMA channel 0 transfer complete
-	dma_ch1_isr,					// 17 DMA channel 1 transfer complete
-	dma_ch2_isr,					// 18 DMA channel 2 transfer complete
-	dma_ch3_isr,					// 19 DMA channel 3 transfer complete
-	dma_ch4_isr,					// 20 DMA channel 4 transfer complete
-	dma_ch5_isr,					// 21 DMA channel 5 transfer complete
-	dma_ch6_isr,					// 22 DMA channel 6 transfer complete
-	dma_ch7_isr,					// 23 DMA channel 7 transfer complete
-	dma_ch8_isr,					// 24 DMA channel 8 transfer complete
-	dma_ch9_isr,					// 25 DMA channel 9 transfer complete
-	dma_ch10_isr,					// 26 DMA channel 10 transfer complete
-	dma_ch11_isr,					// 27 DMA channel 11 transfer complete
-	dma_ch12_isr,					// 28 DMA channel 12 transfer complete
-	dma_ch13_isr,					// 29 DMA channel 13 transfer complete
-	dma_ch14_isr,					// 30 DMA channel 14 transfer complete
-	dma_ch15_isr,					// 31 DMA channel 15 transfer complete
-	dma_error_isr,					// 32 DMA error interrupt channel
-	mcm_isr,					// 33 MCM
-	flash_cmd_isr,					// 34 Flash Memory Command complete
-	flash_error_isr,				// 35 Flash Read collision
-	low_voltage_isr,				// 36 Low-voltage detect/warning
-	wakeup_isr,					// 37 Low Leakage Wakeup
-	watchdog_isr,					// 38 Both EWM and WDOG interrupt
-	randnum_isr,					// 39 Random Number Generator
-	i2c0_isr,					// 40 I2C0
-	i2c1_isr,					// 41 I2C1
-	spi0_isr,					// 42 SPI0
-	spi1_isr,					// 43 SPI1
-	i2s0_tx_isr,					// 44 I2S0 Transmit
-	i2s0_rx_isr,					// 45 I2S0 Receive
-	unused_isr,					// 46 --
-	uart0_status_isr,				// 47 UART0 status
-	uart0_error_isr,				// 48 UART0 error
-	uart1_status_isr,				// 49 UART1 status
-	uart1_error_isr,				// 50 UART1 error
-	uart2_status_isr,				// 51 UART2 status
-	uart2_error_isr,				// 52 UART2 error
-	uart3_status_isr,				// 53 UART3 status
-	uart3_error_isr,				// 54 UART3 error
-	adc0_isr,					// 55 ADC0
-	cmp0_isr,					// 56 CMP0
-	cmp1_isr,					// 57 CMP1
-	ftm0_isr,					// 58 FTM0
-	ftm1_isr,					// 59 FTM1
-	ftm2_isr,					// 60 FTM2
-	cmt_isr,					// 61 CMT
-	rtc_alarm_isr,					// 62 RTC Alarm interrupt
-	rtc_seconds_isr,				// 63 RTC Seconds interrupt
-	pit0_isr,					// 64 PIT Channel 0
-	pit1_isr,					// 65 PIT Channel 1
-	pit2_isr,					// 66 PIT Channel 2
-	pit3_isr,					// 67 PIT Channel 3
-	pdb_isr,					// 68 PDB Programmable Delay Block
-	usb_isr,					// 69 USB OTG
-	usb_charge_isr,					// 70 USB Charger Detect
-	unused_isr,					// 71 --
-	dac0_isr,					// 72 DAC0
-	mcg_isr,					// 73 MCG
-	lptmr_isr,					// 74 Low Power Timer
-	porta_isr,					// 75 Pin detect (Port A)
-	portb_isr,					// 76 Pin detect (Port B)
-	portc_isr,					// 77 Pin detect (Port C)
-	portd_isr,					// 78 Pin detect (Port D)
-	porte_isr,					// 79 Pin detect (Port E)
-	software_isr,					// 80 Software interrupt
-	spi2_isr,					// 81 SPI2
-	uart4_status_isr,				// 82 UART4 status
-	uart4_error_isr,				// 83 UART4 error
-	uart5_status_isr,				// 84 UART4 status
-	uart5_error_isr,				// 85 UART4 error
-	cmp2_isr,					// 86 CMP2
-	ftm3_isr,					// 87 FTM3
-	dac1_isr,					// 88 DAC1
-	adc1_isr,					// 89 ADC1
-	i2c2_isr,					// 90 I2C2
-	can0_message_isr,				// 91 CAN OR'ed Message buffer (0-15)
-	can0_bus_off_isr,				// 92 CAN Bus Off
-	can0_error_isr,					// 93 CAN Error
-	can0_tx_warn_isr,				// 94 CAN Transmit Warning
-	can0_rx_warn_isr,				// 95 CAN Receive Warning
-	can0_wakeup_isr,				// 96 CAN Wake Up
-	sdhc_isr,					// 97 SDHC
-	enet_timer_isr,					// 98 Ethernet IEEE1588 Timers
-	enet_tx_isr,					// 99 Ethernet Transmit
-	enet_rx_isr,					// 100 Ethernet Receive
-	enet_error_isr,					// 101 Ethernet Error
-#elif defined(__MK66FX1M0__)
+
 	dma_ch0_isr,					// 16 DMA channel 0 transfer complete
 	dma_ch1_isr,					// 17 DMA channel 1 transfer complete
 	dma_ch2_isr,					// 18 DMA channel 2 transfer complete
@@ -648,7 +357,6 @@ void (* const _VectorsFlash[NVIC_NUM_INTERRUPTS+16])(void) =
 	can1_tx_warn_isr,				// 113 CAN Transmit Warning
 	can1_rx_warn_isr,				// 114 CAN Receive Warning
 	can1_wakeup_isr,				// 115 CAN Wake Up
-#endif
 };
 
 
@@ -662,11 +370,7 @@ const uint8_t flashconfigbytes[16] = {
 // Automatically initialize the RTC.  When the build defines the compile
 // time, and the user has added a crystal, the RTC will automatically
 // begin at the time of the first upload.
-#ifndef TIME_T
-#define TIME_T 1349049600 // default 1 Oct 2012 (never used, Arduino sets this)
-#endif
-extern void *__rtc_localtime; // Arduino build process sets this
-extern void rtc_set(unsigned long t);
+
 
 
 static void startup_default_early_hook(void) {
@@ -681,13 +385,6 @@ void startup_early_hook(void)		__attribute__ ((weak, alias("startup_default_earl
 void startup_late_hook(void)		__attribute__ ((weak, alias("startup_default_late_hook")));
 
 
-#if defined(__PURE_CODE__) || !defined(__OPTIMIZE__) || defined(__clang__)
-// cases known to compile too large for 0-0x400 memory region
-__attribute__ ((optimize("-Os")))
-#else
-// hopefully all others fit into startup section (below 0x400)
-__attribute__ ((section(".startup"),optimize("-Os")))
-#endif
 void ResetHandler(void)
 {
 	uint32_t *src = &_etext;
@@ -708,35 +405,18 @@ void ResetHandler(void)
 	// early as possible can implement startup_early_hook()
 	startup_early_hook();
 
-	// enable clocks to always-used peripherals
-#if defined(__MK20DX128__)
-	SIM_SCGC5 = 0x00043F82;		// clocks active to all GPIO
-	SIM_SCGC6 = SIM_SCGC6_RTC | SIM_SCGC6_FTM0 | SIM_SCGC6_FTM1 | SIM_SCGC6_ADC0 | SIM_SCGC6_FTFL;
-#elif defined(__MK20DX256__)
-	SIM_SCGC3 = SIM_SCGC3_ADC1 | SIM_SCGC3_FTM2;
-	SIM_SCGC5 = 0x00043F82;		// clocks active to all GPIO
-	SIM_SCGC6 = SIM_SCGC6_RTC | SIM_SCGC6_FTM0 | SIM_SCGC6_FTM1 | SIM_SCGC6_ADC0 | SIM_SCGC6_FTFL;
-#elif defined(__MK64FX512__) || defined(__MK66FX1M0__)
+
 	SIM_SCGC3 = SIM_SCGC3_ADC1 | SIM_SCGC3_FTM2 | SIM_SCGC3_FTM3;
 	SIM_SCGC5 = 0x00043F82;		// clocks active to all GPIO
 	SIM_SCGC6 = SIM_SCGC6_RTC | SIM_SCGC6_FTM0 | SIM_SCGC6_FTM1 | SIM_SCGC6_ADC0 | SIM_SCGC6_FTFL;
 	//PORTC_PCR5 = PORT_PCR_MUX(1) | PORT_PCR_DSE | PORT_PCR_SRE;
 	//GPIOC_PDDR |= (1<<5);
 	//GPIOC_PSOR = (1<<5);
-	//while (1);
-#elif defined(__MKL26Z64__)
-	SIM_SCGC4 = SIM_SCGC4_USBOTG | 0xF0000030;
-	SIM_SCGC5 = 0x00003F82;		// clocks active to all GPIO
-	SIM_SCGC6 = SIM_SCGC6_ADC0 | SIM_SCGC6_TPM0 | SIM_SCGC6_TPM1 | SIM_SCGC6_TPM2 | SIM_SCGC6_FTFL;
-#endif
-#if defined(__MK64FX512__) || defined(__MK66FX1M0__)
+
 	SCB_CPACR = 0x00F00000;
-#endif
-#if defined(__MK66FX1M0__)
+
 	LMEM_PCCCR = 0x85000003;
-#endif
-#if 0
-	// testing only, enable ser_print
+
 	SIM_CLKDIV1 = SIM_CLKDIV1_OUTDIV1(0) | SIM_CLKDIV1_OUTDIV4(1);
 	MCG_C4 |= MCG_C4_DMX32 | MCG_C4_DRST_DRS(1);
 	SIM_SOPT2 = SIM_SOPT2_UART0SRC(1) | SIM_SOPT2_TPMSRC(1);
@@ -745,26 +425,13 @@ void ResetHandler(void)
 	UART0_BDL = 26; // 115200 at 48 MHz
 	UART0_C2 = UART_C2_TE;
 	PORTB_PCR17 = PORT_PCR_MUX(3);
-#endif
-#if defined(KINETISK) && !defined(__MK66FX1M0__)
-	// If the RTC oscillator isn't enabled, get it started early.
-	// But don't do this early on Teensy 3.6 - RTC_CR depends on 3.3V+VBAT
-	// which may be ~0.4V "behind" 3.3V if the power ramps up slowly.
-	if (!(RTC_CR & RTC_CR_OSCE)) {
-		RTC_SR = 0;
-		RTC_CR = RTC_CR_SC16P | RTC_CR_SC4P | RTC_CR_OSCE;
-	}
-#endif
+
 	// release I/O pins hold, if we woke up from VLLS mode
 	if (PMC_REGSC & PMC_REGSC_ACKISO) PMC_REGSC |= PMC_REGSC_ACKISO;
 
     // since this is a write once register, make it visible to all F_CPU's
     // so we can into other sleep modes in the future at any speed
-#if defined(__MK66FX1M0__)
 	SMC_PMPROT = SMC_PMPROT_AHSRUN | SMC_PMPROT_AVLP | SMC_PMPROT_ALLS | SMC_PMPROT_AVLLS;
-#else
-	SMC_PMPROT = SMC_PMPROT_AVLP | SMC_PMPROT_ALLS | SMC_PMPROT_AVLLS;
-#endif
 
 	// TODO: do this while the PLL is waiting to lock....
 	while (dest < &_edata) *dest++ = *src++;
@@ -782,30 +449,7 @@ void ResetHandler(void)
 	//  C6[PLLS] bit is written to 0
 // MCG_SC[FCDIV] defaults to divide by two for internal ref clock
 // I tried changing MSG_SC to divide by 1, it didn't work for me
-#if F_CPU <= 2000000
-    #if defined(KINETISK)
-    MCG_C1 = MCG_C1_CLKS(1) | MCG_C1_IREFS;
-    #elif defined(KINETISL)
-	// use the internal oscillator
-	MCG_C1 = MCG_C1_CLKS(1) | MCG_C1_IREFS | MCG_C1_IRCLKEN;
-    #endif
-	// wait for MCGOUT to use oscillator
-	while ((MCG_S & MCG_S_CLKST_MASK) != MCG_S_CLKST(1)) ;
-	//for (n=0; n<10; n++) ; // TODO: why do we get 2 mA extra without this delay?
-	MCG_C2 = MCG_C2_IRCS;
-	while (!(MCG_S & MCG_S_IRCST)) ;
-	// now in FBI mode:
-	//  C1[CLKS] bits are written to 01
-	//  C1[IREFS] bit is written to 1
-	//  C6[PLLS] is written to 0
-	//  C2[LP] is written to 0
-	MCG_C2 = MCG_C2_IRCS | MCG_C2_LP;
-	// now in BLPI mode:
-	//  C1[CLKS] bits are written to 01
-	//  C1[IREFS] bit is written to 1
-	//  C6[PLLS] bit is written to 0
-	//  C2[LP] bit is written to 1
-#else
+
     #if defined(KINETISK)
     // enable capacitors for crystal
     OSC0_CR = OSC_SC8P | OSC_SC2P | OSC_ERCLKEN;
@@ -824,12 +468,7 @@ void ResetHandler(void)
 	// wait for MCGOUT to use oscillator
 	while ((MCG_S & MCG_S_CLKST_MASK) != MCG_S_CLKST(2)) ;
 
-	// now in FBE mode
-	//  C1[CLKS] bits are written to 10
-	//  C1[IREFS] bit is written to 0
-	//  C1[FRDIV] must be written to divide xtal to 31.25-39 kHz
-	//  C6[PLLS] bit is written to 0
-	//  C2[LP] is written to 0
+	
   #if F_CPU <= 16000000
 	// if the crystal is fast enough, use it directly (no FLL or PLL)
 	MCG_C2 = MCG_C2_RANGE0(2) | MCG_C2_EREFS | MCG_C2_LP;
