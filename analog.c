@@ -565,6 +565,36 @@ void analogWriteDAC1(int val)
 
 
 
+void WrDAC0(int val)
+{
+	//SIM_SCGC2 |= SIM_SCGC2_DAC0;
+	
+	//DAC0_C0 = DAC_C0_DACEN;  // 1.2V ref is DACREF_1
+	
+	//DAC0_C0 = DAC_C0_DACEN | DAC_C0_DACRFS; // 3.3V VDDA is DACREF_2
+	
+	__asm__ ("usat    %[value], #12, %[value]\n\t" : [value] "+r" (val));  // 0 <= val <= 4095
+
+	*(volatile aliased_int16_t *)&(DAC0_DAT0L) = val;
+}
+
+
+
+void WrDAC1(int val)
+{
+	//SIM_SCGC2 |= SIM_SCGC2_DAC1;
+	
+	//DAC1_C0 = DAC_C0_DACEN;  // 1.2V ref is DACREF_1
+	//DAC1_C0 = DAC_C0_DACEN | DAC_C0_DACRFS; // 3.3V VDDA is DACREF_2
+	
+	__asm__ ("usat    %[value], #12, %[value]\n\t" : [value] "+r" (val));  // 0 <= val <= 4095
+
+	*(volatile aliased_int16_t *)&(DAC1_DAT0L) = val;
+}
+
+
+
+
 
 
 
