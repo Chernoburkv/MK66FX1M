@@ -597,9 +597,19 @@ void WrDAC1(int val)
 
 
 
+void AWrite(uint8_t pin, int val)
+{
 
-
-
+	if (pin == A21 || pin == A22) {
+		uint8_t res = 12;
+		if (res < 12) {
+			val <<= 12 - res;
+		} else if (res > 12) {
+			val >>= res - 12;
+		}
+		if (pin == A21) WrDAC0(val);
+		else WrDAC1(val);
+}
 
 
 
